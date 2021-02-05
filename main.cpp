@@ -8,6 +8,7 @@ using namespace uop_msb_200;
 
 #include "Headers/BusInOutWatch.h"
 #include "Headers/LDRWatch.h"
+#include "Headers/SevenSegment.h"
 
 // Blinking rate in milliseconds
 #define BLINKING_RATE     50ms
@@ -40,6 +41,11 @@ int main()
     ldrwatch.OnBecomeLow = &GoneLow;
     ldrwatch.OnChange = &Changed;
 
+    SevenSegment seg;
+
+    seg.SetSegment(0b01100000, false);
+    seg.SetSegment(0b01100000, true);
+
     while (true) {
 
         SW.mode(PullDown);
@@ -47,6 +53,7 @@ int main()
         buttonwatch.UpdateOutput();
 
         ldrwatch.CheckAndRunEvents();
+
         
         if (ldrwatch.UpdatePending()) printf("%f \n",ldrwatch.GetValue());
 
