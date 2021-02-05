@@ -43,8 +43,7 @@ class BusInWatch{
             if (UpdatePending()){
                 timer.reset();
                 lastInput = *Input;
-                return lastInput;
             }
-            return 0x0;
+            return lastInput;
         }
 };
