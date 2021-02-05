@@ -11,9 +11,10 @@ class BusInWatch{
         TimerCompat timer;
 
     public:
-        bool IgnoreAllOff = true;
+        bool IgnoreAllOff = false;
         bool IgnoreRepeat = true;
-        microseconds msBetweenInputs = 1000ms;
+        microseconds msBetweenInputs = 500ms;
+        microseconds acceptEmptyAfter = 500ms;
 
         BusInWatch(BusIn *In){
             timer.start();
@@ -24,9 +25,18 @@ class BusInWatch{
             return *Input != lastInput || !IgnoreRepeat;
         }
 
+        bool AcceptEmpty(){
+            return *Input == 0x0 && (timer.elapsed_time() > acceptEmptyAfter && !IgnoreAllOff);
+        }
+
         bool UpdatePending(){
-            if (InputHasChanged() && timer.elapsed_time() > msBetweenInputs) return *Input!=0x0;
+            if (InputHasChanged() && timer.elapsed_time() > msBetweenInputs) { return *Input!=0x0 || AcceptEmpty(); }
             else return false;
+        }
+
+        virtual void ClearState(){
+            lastInput = 0x0;
+            timer.reset();
         }
 
         int GetInput(){
