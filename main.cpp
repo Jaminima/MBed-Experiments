@@ -2,21 +2,32 @@
  * Copyright (c) 2019 ARM Limited
  * SPDX-License-Identifier: Apache-2.0
  */
+//#include "mbed.h"
+#include "lib/uopmsb/uop_msb_2_0_0.h"
+using namespace uop_msb_200;
 
-#include "mbed.h"
-
+#include "BusWatch.h"
 
 // Blinking rate in milliseconds
-#define BLINKING_RATE     500ms
-
+#define BLINKING_RATE     50ms
+#define BUTTON_SLEEP     10
 
 int main()
 {
-    // Initialise the digital pin LED1 as an output
-    DigitalOut led(LED1);
+    BusOut leds(PC_6, PC_3, PC_2, LED1, LED2, LED3);
+
+    BusIn SW(BTN1_PIN, BTN2_PIN, BTN3_PIN, BTN4_PIN);
+
+    BusWatch watch(&SW,&leds);
 
     while (true) {
-        led = !led;
+
+        SW.mode(PullDown);
+
+        watch.UpdateOutput();
+
         ThisThread::sleep_for(BLINKING_RATE);
     }
 }
+
+
