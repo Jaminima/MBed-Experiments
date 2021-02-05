@@ -6,7 +6,7 @@
 #include "lib/uopmsb/uop_msb_2_0_0.h"
 using namespace uop_msb_200;
 
-#include "BusWatch.h"
+#include "Headers/BusInOutWatch.h"
 
 // Blinking rate in milliseconds
 #define BLINKING_RATE     50ms
@@ -18,7 +18,7 @@ int main()
 
     BusIn SW(BTN1_PIN, BTN2_PIN, BTN3_PIN, BTN4_PIN);
 
-    BusWatch watch(&SW,&leds);
+    BusInOutWatch watch(&SW,&leds);
 
     while (true) {
 
