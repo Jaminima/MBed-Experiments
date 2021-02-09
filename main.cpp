@@ -33,6 +33,7 @@ int main()
     BusOut leds(PC_6, PC_3, PC_2, LED1, LED2, LED3);
 
     BusIn SW(BTN1_PIN, BTN2_PIN, BTN3_PIN, BTN4_PIN);
+    SW.mode(PullDown);
 
     BusInOutWatch buttonwatch(&SW,&leds);
     LDRWatch ldrwatch(&LDR);
@@ -43,17 +44,14 @@ int main()
 
     SevenSegment seg;
 
-    seg.SetSegment(0b01100000, false);
-    seg.SetSegment(0b01100000, true);
+    seg.SetSegmentNum(8, false);
+    seg.SetSegmentNum(9, true);
 
     while (true) {
-
-        SW.mode(PullDown);
 
         buttonwatch.UpdateOutput();
 
         ldrwatch.CheckAndRunEvents();
-
         
         if (ldrwatch.UpdatePending()) printf("%f \n",ldrwatch.GetValue());
 

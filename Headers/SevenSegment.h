@@ -13,13 +13,34 @@ using namespace uop_msb_200;
 #endif
 
 class SevenSegment{
-public:
+    private:
+        //DP C B A D G E F
+        char _numLayouts[10] { 0b01111011, 0b01100000, 0b00111110, 0b01111100, 0b01100101, 0b01011101, 0b01011111, 0b01110000, 0b01111111, 0b01110101 };
+
+    public:
+
+    void SetTarget(bool target){
+        if (!target){
+            _LED_D1_LE = 1;
+            wait_us(1);
+            _LED_D1_LE = 0;
+            wait_us(1);
+        }
+        else{
+            _LED_D2_LE = 1;
+            wait_us(1);
+            _LED_D2_LE = 0;
+            wait_us(1);
+        }
+    }
+
+    void SetSegmentNum(unsigned int i, bool targetPin){
+        _ledData = _numLayouts[i];
+        SetTarget(targetPin);
+    }
 
     void SetSegment(char pinState, bool targetPin){
-        _LED_D1_LE = !targetPin;
-        _LED_D2_LE = targetPin;
-
-        wait_us(1);
+        SetTarget(targetPin);
         _ledData = pinState;
     }
 
