@@ -9,6 +9,7 @@ using namespace uop_msb_200;
 #include "Headers/BusInOutWatch.h"
 #include "Headers/LDRWatch.h"
 #include "Headers/SevenSegment.h"
+#include "Headers/Scheduler.h"
 
 // Blinking rate in milliseconds
 #define BLINKING_RATE     50ms
@@ -24,6 +25,14 @@ void GoneLow(float val){
 
 void Changed(float val){
     printf("Changed %f \n",val);
+}
+
+    SevenSegment seg;
+unsigned int i=0;
+void changeSevenSeg(){
+    //seg.SetSegmentNum(i, false);
+    //seg.SetSegmentNum(i+1, true);
+    i = (i+1)%10;
 }
 
 int main()
@@ -42,10 +51,12 @@ int main()
     ldrwatch.OnBecomeLow = &GoneLow;
     ldrwatch.OnChange = &Changed;
 
-    SevenSegment seg;
+    SetupScheduler(1);
 
-    seg.SetSegmentNum(8, false);
-    seg.SetSegmentNum(9, true);
+    __enable_irq();
+
+    _schedule[0] = Schedule(&changeSevenSeg,10);
+    StartScheduler();
 
     while (true) {
 
@@ -54,6 +65,7 @@ int main()
         ldrwatch.CheckAndRunEvents();
         
         if (ldrwatch.UpdatePending()) printf("%f \n",ldrwatch.GetValue());
+        
 
         ThisThread::sleep_for(BLINKING_RATE);
     }
