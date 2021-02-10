@@ -43,9 +43,9 @@ class LDRWatch{
 
         float GetValue(){
             if (UpdatePending()){
+                previousValue = *ldr;
                 timer.reset();
             }
-            previousValue = *ldr;
             return previousValue;
         }
 };

@@ -17,25 +17,35 @@ public:
     }
 };
 
-Ticker _tick;
+class Scheduler{
+private:
+    unsigned int tickNum = 0, tickLim = 10000;
+    Schedule *_schedule = 0x0;
 
-Schedule *_schedule = 0x0;
-unsigned int scheduleSize = 0;
-unsigned int tickNum = 0, tickLim = 1000;
-float tickRate_ms = 100;
-
-void SetupScheduler(unsigned int size){
-    scheduleSize = size;
-    _schedule = new Schedule[size];
-}
-
-void CheckSchedule(){
-    tickNum = (tickNum+1)%tickLim;
-    for (unsigned int i=0;i<scheduleSize;i++){
-        if (tickNum % _schedule[i].tickGap == 0) _schedule[i].func();
+    void CheckSchedule(){
+        tickNum = (tickNum+1)%tickLim;
+        for (unsigned int i=0;i<scheduleSize;i++){
+            if (_schedule[i].func!=0x0 && tickNum % _schedule[i].tickGap == 0) _schedule[i].func();
+        }
     }
-}
 
-void StartScheduler(){
-    _tick.attach_us(&CheckSchedule,tickRate_ms);
-}
+public:
+    unsigned int scheduleSize = 0;
+    nanoseconds tickRate_ns = 1ms;
+
+    Scheduler(unsigned int size){
+        scheduleSize = size;
+        _schedule = new Schedule[size];
+    }
+
+    void SetSchedule(unsigned int indx, void (*func)(), unsigned int tickGap){
+        _schedule[indx] = Schedule(func,tickGap);
+    }
+
+    void Start(){
+        while (true){
+            CheckSchedule();
+            wait_ns(tickRate_ns.count());
+        }
+    }
+};
