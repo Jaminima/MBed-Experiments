@@ -40,9 +40,7 @@ LDRWatch ldrwatch(&LDR);
 SevenSegment seg;
 unsigned int i=0;
 void changeSevenSeg(){
-    seg.SetSegmentNum(i/10, false);
-    seg.SetSegmentNum(i%10, true);
-    //i = (i+1)%9;
+    seg.SetNumber(i);
 }
 
 void APressed(){
@@ -87,9 +85,9 @@ int main()
 
     buttonwatch.IgnoreRepeat=false;
 
-    _sch.SetSchedule(0,&changeSevenSeg,210);
-    _sch.SetSchedule(1,&buttonCheck,500);
-    //_sch.SetSchedule(2,&ldrWatch,1000);
+    _sch.SetSchedule(0,&changeSevenSeg,21);
+    _sch.SetSchedule(1,&buttonCheck,50);
+    _sch.SetSchedule(2,&ldrWatch,1000);
     _sch.Start();
 }
 
