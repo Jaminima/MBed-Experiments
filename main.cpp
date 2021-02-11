@@ -38,6 +38,8 @@ ButtonWatch buttonwatch = ButtonWatch();
 
 LDRWatch ldrwatch(&LDR);
 
+LedMatrix matrix;
+
 SevenSegment seg;
 unsigned int i=0;
 void changeSevenSeg(){
@@ -68,6 +70,10 @@ void ldrWatch(){
     ldrwatch.CheckAndRunEvents();
 }
 
+void display(){
+    matrix.writeMatrix();
+}
+
 int main()
 {
     Scheduler _sch(3);
@@ -86,14 +92,13 @@ int main()
 
     buttonwatch.IgnoreRepeat=false;
 
-    LedMatrix matrix;
     //matrix.SetLed(0, 0);
-    matrix.matrixState[0][0]=0xFF;
-    matrix.matrixState[7][1]=0xFF;
-    while (true) matrix.writeMatrix();
+    matrix.matrixState[1][0]=0xFF;
+    matrix.matrixState[6][1]=0xFF;
 
     _sch.SetSchedule(0,&changeSevenSeg,21);
     _sch.SetSchedule(1,&buttonCheck,50);
+    _sch.SetSchedule(2,&display,3);
     //_sch.SetSchedule(2,&ldrWatch,1000);
     _sch.Start();
 }
