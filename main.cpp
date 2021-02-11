@@ -10,7 +10,7 @@ using namespace uop_msb_200;
 #include "Headers/LDRWatch.h"
 #include "Headers/SevenSegment.h"
 #include "Headers/Scheduler.h"
-#include "Headers/LedGrid.h"
+#include "Games/GameOfLife.h"
 
 // Blinking rate in milliseconds
 #define BLINKING_RATE     50ms
@@ -38,12 +38,28 @@ ButtonWatch buttonwatch = ButtonWatch();
 
 LDRWatch ldrwatch(&LDR);
 
-LedMatrix matrix;
+GameOfLife gameOfLife = GameOfLife();
 
 SevenSegment seg;
 unsigned int i=0;
 void changeSevenSeg(){
     seg.SetNumber(i);
+}
+
+void buttonCheck(){
+    buttonwatch.CheckAndRunEvents();
+}
+
+void ldrWatch(){
+    ldrwatch.CheckAndRunEvents();
+}
+
+void gameTick(){
+    gameOfLife.DoTick();
+}
+
+void display(){
+    gameOfLife.Draw();
 }
 
 void APressed(){
@@ -62,21 +78,10 @@ void EPressed(){
     i=0;
 }
 
-void buttonCheck(){
-    buttonwatch.CheckAndRunEvents();
-}
-
-void ldrWatch(){
-    ldrwatch.CheckAndRunEvents();
-}
-
-void display(){
-    matrix.writeMatrix();
-}
-
 int main()
 {
-    Scheduler _sch(3);
+    Scheduler _sch(4);
+    _sch.tickRate_ns = 100ns;
 
     SW.mode(PullDown);
 
@@ -92,13 +97,12 @@ int main()
 
     buttonwatch.IgnoreRepeat=false;
 
-    //matrix.SetLed(0, 0);
-    matrix.matrixState[1][0]=0xFF;
-    matrix.matrixState[6][1]=0xFF;
+    gameOfLife._ledmatrix[1].matrixState[1][0]=0b111;
 
-    _sch.SetSchedule(0,&changeSevenSeg,21);
+    _sch.SetSchedule(0,&changeSevenSeg,210);
     _sch.SetSchedule(1,&buttonCheck,50);
-    _sch.SetSchedule(2,&display,3);
+    _sch.SetSchedule(2,&gameTick,1000);
+    _sch.SetSchedule(3,&display,3);
     //_sch.SetSchedule(2,&ldrWatch,1000);
     _sch.Start();
 }

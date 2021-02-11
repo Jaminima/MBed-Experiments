@@ -30,6 +30,13 @@ public:
         }
     }
 
+    void Clear(){
+        for (char y=0;y<8;y++){
+            matrixState[y][0]=0x00;
+            matrixState[y][1]=0x00;
+        }
+    }
+
     void SetLed(char x, char y){
         x++;
 

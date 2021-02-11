@@ -19,7 +19,7 @@ public:
 
 class Scheduler{
 private:
-    unsigned int tickNum = 0, tickLim = 10000;
+    unsigned int tickNum = 0, tickLim = 0xFFFFFFFF;
     Schedule *_schedule = 0x0;
 
     void CheckSchedule(){
@@ -31,7 +31,7 @@ private:
 
 public:
     unsigned int scheduleSize = 0;
-    nanoseconds tickRate_ns = 1ms;
+    nanoseconds tickRate_ns = 1ns;
 
     Scheduler(unsigned int size){
         scheduleSize = size;
