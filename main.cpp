@@ -10,6 +10,7 @@ using namespace uop_msb_200;
 #include "Headers/LDRWatch.h"
 #include "Headers/SevenSegment.h"
 #include "Headers/Scheduler.h"
+#include "Headers/LedGrid.h"
 
 // Blinking rate in milliseconds
 #define BLINKING_RATE     50ms
@@ -85,9 +86,15 @@ int main()
 
     buttonwatch.IgnoreRepeat=false;
 
+    LedMatrix matrix;
+    //matrix.SetLed(0, 0);
+    matrix.matrixState[0][0]=0xFF;
+    matrix.matrixState[7][1]=0xFF;
+    while (true) matrix.writeMatrix();
+
     _sch.SetSchedule(0,&changeSevenSeg,21);
     _sch.SetSchedule(1,&buttonCheck,50);
-    _sch.SetSchedule(2,&ldrWatch,1000);
+    //_sch.SetSchedule(2,&ldrWatch,1000);
     _sch.Start();
 }
 
