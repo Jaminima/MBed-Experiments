@@ -20,7 +20,7 @@ class SevenSegment{
     public:
 
     void SetNumber(unsigned int i){
-        SetSegmentNum(i/10, false);
+        SetSegmentNum((i/10)%10, false);
         SetSegmentNum(i%10, true);
     }
 
