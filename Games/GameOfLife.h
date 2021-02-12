@@ -4,6 +4,7 @@
 using namespace uop_msb_200;
 
 #include "Headers/LedGrid.h"
+#include "Headers/Random.h"
 
 class GameOfLife{
     private:
@@ -24,6 +25,15 @@ class GameOfLife{
             x%=16;
 
             _ledmatrix[side].matrixState[y][(x/8)] ^= (-State ^ _ledmatrix[side].matrixState[y][(x/8)]) & (1UL << (x%8));
+        }
+
+        void SetRandom(Random *rnd){
+            for (char x=0,y=0;y<8;){    
+                SetState(x, y, rnd->RandomBool());
+                x++;
+                if(x==16) { x=0; y++; }
+            }
+            side=!side;
         }
 
         bool _rules(char x, char y){

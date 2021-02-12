@@ -11,6 +11,7 @@ using namespace uop_msb_200;
 #include "Headers/SevenSegment.h"
 #include "Headers/Scheduler.h"
 #include "Games/GameOfLife.h"
+#include "Headers/Random.h"
 
 // Blinking rate in milliseconds
 #define BLINKING_RATE     50ms
@@ -39,6 +40,8 @@ ButtonWatch buttonwatch = ButtonWatch();
 LDRWatch ldrwatch(&LDR);
 
 GameOfLife gameOfLife = GameOfLife();
+
+Random rnd(&LDR);
 
 SevenSegment seg;
 unsigned int i=0;
@@ -97,7 +100,14 @@ int main()
 
     buttonwatch.IgnoreRepeat=false;
 
-    gameOfLife._ledmatrix[1].matrixState[1][0]=0b111;
+    //gameOfLife._ledmatrix[1].matrixState[1][0]=0x8B;
+    //gameOfLife._ledmatrix[1].matrixState[2][0]=0x2C;
+    //gameOfLife._ledmatrix[1].matrixState[3][1]=0x2F;
+    //gameOfLife._ledmatrix[1].matrixState[1][1]=0x8B;
+
+    //printf("Hello %d\n",rnd.RandomBool());
+
+    gameOfLife.SetRandom(&rnd);
 
     _sch.SetSchedule(0,&changeSevenSeg,210);
     _sch.SetSchedule(1,&buttonCheck,50);
