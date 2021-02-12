@@ -42,6 +42,16 @@ public:
         _schedule[indx] = Schedule(func,tickGap);
     }
 
+    void SetSchedule_ms(unsigned int indx, void (*func)(), milliseconds timeGap){
+        unsigned int ticks = timeGap/tickRate_ns;
+        _schedule[indx] = Schedule(func,ticks/1000);
+    }
+
+    void SetSchedule_ns(unsigned int indx, void (*func)(), nanoseconds timeGap){
+        unsigned int ticks = timeGap/tickRate_ns;
+        _schedule[indx] = Schedule(func,ticks);
+    }
+
     void Start(){
         while (true){
             CheckSchedule();

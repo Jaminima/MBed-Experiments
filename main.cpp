@@ -100,19 +100,12 @@ int main()
 
     buttonwatch.IgnoreRepeat=false;
 
-    //gameOfLife._ledmatrix[1].matrixState[1][0]=0x8B;
-    //gameOfLife._ledmatrix[1].matrixState[2][0]=0x2C;
-    //gameOfLife._ledmatrix[1].matrixState[3][1]=0x2F;
-    //gameOfLife._ledmatrix[1].matrixState[1][1]=0x8B;
-
-    //printf("Hello %d\n",rnd.RandomBool());
-
     gameOfLife.SetRandom(&rnd);
 
-    _sch.SetSchedule(0,&changeSevenSeg,210);
-    _sch.SetSchedule(1,&buttonCheck,50);
-    _sch.SetSchedule(2,&gameTick,1000);
-    _sch.SetSchedule(3,&display,3);
+    _sch.SetSchedule_ns(0,&changeSevenSeg,300ns);
+    _sch.SetSchedule_ns(1,&buttonCheck,200ns);
+    _sch.SetSchedule_ms(2,&gameTick,250ms);
+    _sch.SetSchedule_ns(3,&display,300ns);
     //_sch.SetSchedule(2,&ldrWatch,1000);
     _sch.Start();
 }
