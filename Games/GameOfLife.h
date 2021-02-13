@@ -3,7 +3,7 @@
 #include "lib/uopmsb/uop_msb_2_0_0.h"
 using namespace uop_msb_200;
 
-#include "Headers/LedGrid.h"
+#include "Devices/LedGrid.h"
 #include "Headers/Random.h"
 
 class GameOfLife{

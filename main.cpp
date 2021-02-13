@@ -6,9 +6,9 @@
 #include "lib/uopmsb/uop_msb_2_0_0.h"
 using namespace uop_msb_200;
 
-#include "Headers/ButtonWatch.h"
-#include "Headers/LDRWatch.h"
-#include "Headers/SevenSegment.h"
+#include "Devices/ButtonWatch.h"
+#include "Devices/LDRWatch.h"
+#include "Devices/SevenSegment.h"
 #include "Headers/Scheduler.h"
 #include "Games/GameOfLife.h"
 #include "Headers/Random.h"
