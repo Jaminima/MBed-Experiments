@@ -42,6 +42,12 @@ class Snake{
             return food[0] == x && food[1] == y;
         }
 
+        void HitFood(){
+            MoveFood();
+            score++;
+            if (scored!=0x0) scored();
+        }
+
         void MoveFood(){
             char x = food[0], y = food[1];
 
@@ -52,8 +58,6 @@ class Snake{
 
             food[0]=x;
             food[1]=y;
-            score++;
-            if (scored!=0x0) scored();
         }
 
     public:
@@ -66,15 +70,15 @@ class Snake{
             rnd = _rnd;
             _buttons.IgnoreRepeat=false;
             _body.Add(new char[2]{8,4});
-            food[0] = rnd->RandomBool();
-            food[1] = rnd->RandomBool();
+            
+            MoveFood();
         }
 
         bool MoveHead(char x, char y){
             if (IsEmpty(x, y)){
                 _body.Add(new char[2]{x,y});
 
-                if (IsFood(x,y)) MoveFood();
+                if (IsFood(x,y)) HitFood();
                 else _body.Remove(_body.tail);
 
                 return true;

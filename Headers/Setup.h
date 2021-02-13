@@ -43,7 +43,7 @@ void snk_scored(){
 }
 
 void snk_end(){
-    
+
 }
 
 void Setup_GameOfLife(){
