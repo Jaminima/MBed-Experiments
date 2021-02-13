@@ -79,6 +79,7 @@ void DPressed(){
 }
 void EPressed(){
     i=0;
+    gameOfLife.SetRandom(&rnd);
 }
 
 int main()
