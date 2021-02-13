@@ -8,8 +8,7 @@ using namespace uop_msb_200;
 
 #include "Devices/ButtonWatch.h"
 #include "Devices/LDRWatch.h"
-#include "Devices/SevenSegment.h"
-#include "Headers/Scheduler.h"
+//#include "Devices/SevenSegment.h"
 #include "Games/GameOfLife.h"
 #include "Headers/Random.h"
 
@@ -31,15 +30,8 @@ void Changed(float val){
 
 AnalogIn LDR(PC_0);
 
-ButtonWatch buttonwatch = ButtonWatch();
-
 LDRWatch ldrwatch(&LDR);
 
-SevenSegment seg;
-unsigned int i=0;
-void changeSevenSeg(){
-    seg.SetNumber(i);
-}
 
 void buttonCheck(){
     buttonwatch.CheckAndRunEvents();
@@ -47,38 +39,18 @@ void buttonCheck(){
 
 void ldrWatch(){
     ldrwatch.CheckAndRunEvents();
-}
-
-void APressed(){
-    i--;
-}
-void BPressed(){
-    i/=2;
-}
-void CPressed(){
-    i++;
-}
-void DPressed(){
-    i*=2;
-}
-void EPressed(){
-    i=0;
 }*/
 
+#define _SevenSegment
 #define _GameOfLife
-#include "Games/Setup.h"
+#include "Headers/Setup.h"
 
 int main()
 {
     Setup();
     /*ldrwatch.OnBecomeHigh = &GoneHigh;
     ldrwatch.OnBecomeLow = &GoneLow;
-    ldrwatch.OnChange = &Changed;
-
-    buttonwatch.APressed = &APressed;
-    buttonwatch.BPressed = &BPressed;
-    buttonwatch.CPressed = &CPressed;
-    buttonwatch.DPressed = &DPressed;*/
+    ldrwatch.OnChange = &Changed;*/
 }
 
 
