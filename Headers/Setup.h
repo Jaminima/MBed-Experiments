@@ -6,13 +6,13 @@
 #include "lib/uopmsb/uop_msb_2_0_0.h"
 using namespace uop_msb_200;
 
-Scheduler _sch(5);
+Scheduler _sch(6);
+AnalogIn LDR(PC_0);
 
 #ifdef _GameOfLife
 GameOfLife gameOfLife = GameOfLife();
 ButtonWatch gme_buttonwatch = ButtonWatch();
 
-AnalogIn LDR(PC_0);
 Random rnd(&LDR);
 
 void gme_EPressed(){
@@ -87,11 +87,43 @@ void Setup_SevenSegment(){
 }
 #endif
 
+#ifdef _LDRWatch
+void ldr_GoneHigh(float val){
+    printf("Gone High %f \n",val);
+}
+
+void ldr_GoneLow(float val){
+    printf("Gone Low %f \n",val);
+}
+
+void ldr_Changed(float val){
+    printf("Changed %f \n",val);
+}
+
+LDRWatch ldrwatch(&LDR);
+
+void ldr_ldrWatch(){
+    ldrwatch.CheckAndRunEvents();
+}
+
+void Setup_LDRWatch(){
+    ldrwatch.OnBecomeHigh = &ldr_GoneHigh;
+    ldrwatch.OnBecomeLow = &ldr_GoneLow;
+    ldrwatch.OnChange = &ldr_Changed;
+    _sch.SetSchedule_ms(5,&ldr_ldrWatch,100ms);
+}
+
+#endif
+
 BusIn SW(BTN1_PIN, BTN2_PIN, BTN3_PIN, BTN4_PIN);
 void Setup(){
     SW.mode(PullDown);
 
     _sch.tickRate_ns = 100ns;
+    
+    #ifdef _LDRWatch
+    Setup_LDRWatch();
+    #endif
 
     #ifdef _GameOfLife
     Setup_GameOfLife();

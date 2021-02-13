@@ -41,6 +41,7 @@ void ldrWatch(){
     ldrwatch.CheckAndRunEvents();
 }*/
 
+#define _LDRWatch
 #define _SevenSegment
 #define _GameOfLife
 #include "Headers/Setup.h"
@@ -48,9 +49,6 @@ void ldrWatch(){
 int main()
 {
     Setup();
-    /*ldrwatch.OnBecomeHigh = &GoneHigh;
-    ldrwatch.OnBecomeLow = &GoneLow;
-    ldrwatch.OnChange = &Changed;*/
 }
 
 
