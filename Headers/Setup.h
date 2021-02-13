@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Devices/ButtonWatch.h"
-#include "Games/GameOfLife.h"
 #include "Headers/Random.h"
 #include "Headers/Scheduler.h"
 
@@ -10,12 +9,64 @@ using namespace uop_msb_200;
 
 Scheduler _sch(6);
 AnalogIn LDR(PC_0);
+Random rnd(&LDR);
+
+#ifdef _Snake
+#include "Games/Snake.h"
+#include "Devices/SevenSegment.h"
+Snake _snake = Snake(&rnd);
+SevenSegment seg;
+
+void snk_buttonCheck(){
+    _snake._buttons.CheckAndRunEvents();
+}
+
+void snk_APressed(){
+    _snake.Pressed(0);
+}
+void snk_BPressed(){
+    _snake.Pressed(1);
+}
+void snk_CPressed(){
+    _snake.Pressed(2);
+}
+void snk_DPressed(){
+    _snake.Pressed(3);
+}
+
+void snk_display(){
+    _snake.Draw();
+}
+
+void snk_scored(){
+    seg.SetNumber(_snake.score);
+}
+
+void snk_end(){
+    
+}
+
+void Setup_GameOfLife(){
+    _snake._buttons.APressed = &snk_APressed;
+    _snake._buttons.BPressed = &snk_BPressed;
+    _snake._buttons.CPressed = &snk_CPressed;
+    _snake._buttons.DPressed = &snk_DPressed;
+
+    _snake.gameEnded = &snk_end;
+    _snake.scored = &snk_scored;
+
+    seg.SetNumber(0);
+
+    _sch.SetSchedule_ns(0,&snk_buttonCheck,200ns);
+    _sch.SetSchedule_ns(1,&snk_display,300ns);
+}
+
+#endif
 
 #ifdef _GameOfLife
+#include "Games/GameOfLife.h"
 GameOfLife gameOfLife = GameOfLife();
 ButtonWatch gme_buttonwatch = ButtonWatch();
-
-Random rnd(&LDR);
 
 void gme_EPressed(){
     gameOfLife.SetRandom(&rnd);
@@ -135,6 +186,10 @@ void Setup(){
 
     #ifdef _SevenSegment
     Setup_SevenSegment();
+    #endif
+    
+    #ifdef _Snake
+    Setup_GameOfLife();
     #endif
 
     _sch.Start();

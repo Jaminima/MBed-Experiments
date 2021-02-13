@@ -27,6 +27,17 @@ public:
         return RandomSmallFloat() * 10000;
     }
 
+    char RandomRange(char max){
+        return ((char)RandomFloat())%max;
+    }
+
+    char RandomRangeFromBool(char max){ //Biases towards max/2
+        char i=0;
+        
+        for (char j=max;j>0;j--) i+=RandomBool();
+        return i;
+    }
+
     bool RandomBool(){
         float t1 = *noiseSource;
 

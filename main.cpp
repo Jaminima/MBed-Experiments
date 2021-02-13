@@ -6,9 +6,10 @@
 #include "lib/uopmsb/uop_msb_2_0_0.h"
 using namespace uop_msb_200;
 
-#define _LDRWatch
+/*#define _LDRWatch
 #define _SevenSegment
-#define _GameOfLife
+#define _GameOfLife*/
+#define _Snake
 #include "Headers/Setup.h"
 
 int main()
