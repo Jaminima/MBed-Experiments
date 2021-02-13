@@ -17,7 +17,7 @@ using namespace uop_msb_200;
 #define BLINKING_RATE     50ms
 #define BUTTON_SLEEP     10
 
-void GoneHigh(float val){
+/*void GoneHigh(float val){
     printf("Gone High %f \n",val);
 }
 
@@ -31,17 +31,9 @@ void Changed(float val){
 
 AnalogIn LDR(PC_0);
 
-BusOut leds(PC_6, PC_3, PC_2, LED1, LED2, LED3);
-
-BusIn SW(BTN1_PIN, BTN2_PIN, BTN3_PIN, BTN4_PIN);
-
 ButtonWatch buttonwatch = ButtonWatch();
 
 LDRWatch ldrwatch(&LDR);
-
-GameOfLife gameOfLife = GameOfLife();
-
-Random rnd(&LDR);
 
 SevenSegment seg;
 unsigned int i=0;
@@ -55,14 +47,6 @@ void buttonCheck(){
 
 void ldrWatch(){
     ldrwatch.CheckAndRunEvents();
-}
-
-void gameTick(){
-    gameOfLife.DoTick();
-}
-
-void display(){
-    gameOfLife.Draw();
 }
 
 void APressed(){
@@ -79,36 +63,22 @@ void DPressed(){
 }
 void EPressed(){
     i=0;
-    gameOfLife.SetRandom(&rnd);
-}
+}*/
+
+#define _GameOfLife
+#include "Games/Setup.h"
 
 int main()
 {
-    Scheduler _sch(4);
-    _sch.tickRate_ns = 100ns;
-
-    SW.mode(PullDown);
-
-    ldrwatch.OnBecomeHigh = &GoneHigh;
+    Setup();
+    /*ldrwatch.OnBecomeHigh = &GoneHigh;
     ldrwatch.OnBecomeLow = &GoneLow;
     ldrwatch.OnChange = &Changed;
 
     buttonwatch.APressed = &APressed;
     buttonwatch.BPressed = &BPressed;
     buttonwatch.CPressed = &CPressed;
-    buttonwatch.DPressed = &DPressed;
-    buttonwatch._BoardPressed = &EPressed;
-
-    buttonwatch.IgnoreRepeat=false;
-
-    gameOfLife.SetRandom(&rnd);
-
-    _sch.SetSchedule_ns(0,&changeSevenSeg,300ns);
-    _sch.SetSchedule_ns(1,&buttonCheck,200ns);
-    _sch.SetSchedule_ms(2,&gameTick,250ms);
-    _sch.SetSchedule_ns(3,&display,300ns);
-    //_sch.SetSchedule(2,&ldrWatch,1000);
-    _sch.Start();
+    buttonwatch.DPressed = &DPressed;*/
 }
 
 
