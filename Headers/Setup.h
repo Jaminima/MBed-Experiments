@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Devices/ButtonWatch.h"
+#include "Games/GameOfLife.h"
+#include "Headers/Random.h"
 #include "Headers/Scheduler.h"
 
 #include "lib/uopmsb/uop_msb_2_0_0.h"
@@ -88,6 +90,8 @@ void Setup_SevenSegment(){
 #endif
 
 #ifdef _LDRWatch
+#include "Devices/LDRWatch.h"
+
 void ldr_GoneHigh(float val){
     printf("Gone High %f \n",val);
 }
